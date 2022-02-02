@@ -1,0 +1,43 @@
+---
+
+# (Optional) AWS Region to call.
+# If not specified, defaults to the value of AWS_DEFAULT_REGION environment variable
+Region: us-east-1
+
+# (Optional) AWS Credentials
+# If not specified, retrieves credentials from environment variables
+#
+# Credentials:
+#   AccessKeyId: '<Your AWS Access Key>'
+#   SecretAccessKey: '<Your Secret Access Key>'
+
+# (Optional) SSH Host key
+# Without specifying the host key, a new host key is generated on every restart
+# This can cause SSH key pinning issues
+# HostKey: /etc/boggart/host_key
+
+# Permissions
+Permissions:
+
+  # "ExampleKey" here is the name of the public key
+  # It is logged in Boggart logs whenever it is being used to assume a role
+  ExampleKey:
+
+    # SSH public key in the authorized_keys format
+    # If using multi-line strings, make sure to use "pipe" syntax so that Boggart can correctly
+    # parse the key; otherwise this can result in a "no key found" error on startup.
+    AuthorizedKey: |
+      ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDRw4EkJDvVhD2y5PFMNHIGaB4Q10KZ8tLlU
+      PfYjNd3LXAG55c4Ctomwz+ZMYSHtN3kL1Q+rmKHgRGdiLnD3+8QRgTErsL78tQZc6k7cADf1t
+      pjCwaQqHp7QCtMfyU5hsXE2Z5qK4ViTG5y8jmG+VZzB7pOiwjtI0OMc6mVtji3FmE4U1EH6Wv
+      BJavojPaXmRFqpFGss9UhHriYCL5m9OyEGapKq1IjPg+sXqXmPs088ljjU66YWW8mAlAaD+LG
+      4XE6V9ECYwWwfbeR9itShBhJQN7NnnOHHmb7PODHZvq39Ku6m1p4NfJQuLnEDuaI+DvV2LMFU
+      DEi4ELrKa6s2GvqfRK2pyKnBgv0TM3ZJVeEnwEqw0f/uLBxA/Ln1AL1vE+WfhftZccdDJBoEO
+      TifJ1Xm/PaLsmodCCWDfE6eFlHX5ufmBhGtHikMMWDiej1jc887zI6nidc6ciFd8ACYB+ZN1v
+      41Syp4FNPpoKZ4mqUBJd/bLNsDxI+sjm6RLht51E=
+
+    # Collection of glob patterns describing AWS IAM role ARNs that user of this key can assume
+    # See https://github.com/gobwas/glob for supported glob patterns
+    Roles:
+      - arn:aws:iam::123456789012:role/TestRole
+      - arn:aws:iam::123456789012:role/Foo*Role
