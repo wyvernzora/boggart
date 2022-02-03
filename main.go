@@ -2,10 +2,16 @@ package main
 
 import (
 	"log"
+	"os"
 )
 
 func main() {
-	boggart, err := NewBoggart("/etc/boggart/config.yml")
+	configfile := "/etc/boggart/config.yml"
+	if len(os.Args) > 1 {
+		configfile = os.Args[1]
+	}
+
+	boggart, err := NewBoggart(configfile)
 	if err != nil {
 		log.Fatal(err)
 	}

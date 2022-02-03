@@ -12,9 +12,8 @@ Region: us-east-1
 #   SecretAccessKey: '<Your Secret Access Key>'
 
 # (Optional) SSH Host key
-# Without specifying the host key, a new host key is generated on every restart
-# This can cause SSH key pinning issues
-# HostKey: /etc/boggart/host_key
+# Without specifying the host key, one is generated on first start in the /boggart/etc/host_key
+HostKey: /boggart/etc/host_key
 
 # Permissions
 Permissions:
