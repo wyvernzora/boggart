@@ -1,4 +1,4 @@
-package main
+package boggart
 
 import (
 	gliderssh "github.com/gliderlabs/ssh"

@@ -1,11 +1,14 @@
-package main
+package boggart
 
 import (
-	"log"
+	"github.com/rs/zerolog"
+	"github.com/rs/zerolog/log"
 	"os"
 )
 
 func main() {
+	zerolog.TimeFieldFormat = zerolog.TimeFormatUnix
+
 	configfile := "/etc/boggart/config.yml"
 	if len(os.Args) > 1 {
 		configfile = os.Args[1]
@@ -13,7 +16,7 @@ func main() {
 
 	boggart, err := NewBoggart(configfile)
 	if err != nil {
-		log.Fatal(err)
+		log.Fatal().Err(err).Msgf("")
 	}
-	log.Fatal(boggart.Serve(":2222"))
+	log.Fatal().Err(boggart.Serve(":2222")).Msgf("")
 }
