@@ -1,28 +1,34 @@
 ---
 
-# (Optional) AWS Region to call.
-# If not specified, defaults to the value of AWS_DEFAULT_REGION environment variable
-Region: us-east-1
 
-# (Optional) AWS Credentials
-# If not specified, retrieves credentials from environment variables
-#
-# Credentials:
-#   AccessKeyId: '<Your AWS Access Key>'
-#   SecretAccessKey: '<Your Secret Access Key>'
+
+AwsConfig:
+  # (Optional) AWS Region to call.
+  # If not specified, defaults to the value of AWS_DEFAULT_REGION environment variable
+  Region: us-east-1
+
+  # (Optional) AWS Credentials
+  # If not specified, retrieves credentials from environment variables
+  # AccessKeyId: '<Your AWS Access Key>'
+  # SecretAccessKey: '<Your Secret Access Key>'
+
+# (Optional) Address that Boggart listens on
+ListenAddress: :2222
 
 # (Optional) SSH Host key
-# Without specifying the host key, one is generated on first start in the /boggart/etc/host_key
-HostKey: /boggart/etc/host_key
+# Without specifying the host keys, one is generated on first start in the /boggart/etc/host_key
+HostKeys:
+  - !file /etc/boggart/host_key
+
+# (Optional) Default output format
+# Can be one of 'json', 'shell', 'aws'
+DefaultFormat: shell
 
 # Permissions
 Permissions:
 
-  # "ExampleKey" here is the name of the public key
-  # It is logged in Boggart logs whenever it is being used to assume a role
-  ExampleKey:
-
-    # SSH public key in the authorized_keys format
+  - Name: ExampleKey
+     # SSH public key in the authorized_keys format
     # If using multi-line strings, make sure to use "pipe" syntax so that Boggart can correctly
     # parse the key; otherwise this can result in a "no key found" error on startup.
     AuthorizedKey: |
@@ -34,7 +40,6 @@ Permissions:
       DEi4ELrKa6s2GvqfRK2pyKnBgv0TM3ZJVeEnwEqw0f/uLBxA/Ln1AL1vE+WfhftZccdDJBoEO
       TifJ1Xm/PaLsmodCCWDfE6eFlHX5ufmBhGtHikMMWDiej1jc887zI6nidc6ciFd8ACYB+ZN1v
       41Syp4FNPpoKZ4mqUBJd/bLNsDxI+sjm6RLht51E=
-
     # Collection of glob patterns describing AWS IAM role ARNs that user of this key can assume
     # See https://github.com/gobwas/glob for supported glob patterns
     Roles:

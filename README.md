@@ -17,29 +17,31 @@ $ docker run -d -v /etc/boggart/:/etc/boggart/ -p 2222:2222 boggart:latest
 
 Use SSH to retrieve credentials:
 ```shell
-$ ssh -p 2222 boggart '{"roleArn": "arn:aws:iam::123456789012:role/TestRole", "sessionName": "TestSession"}'
+$ ssh -p 2222 boggart 'arn:aws:iam::123456789012:role/TestRole?format=shell'
 ```
 
 Where Boggart responds with the following on success:
-```json
-{
-  "success": true,
-  "credentials": {
-    "accessKeyId": "<access-key-id>",
-    "secretAccessKey": "<secret-access-key>",
-    "sessionToken": "<session-token>",
-    "expiresAt": "<expiration-date-iso8601>"
-  }
-}
+```shell
+export BOGGART_SUCCESS=1
+export BOGGART_ERROR=
+export BOGGART_EXPIRES_AT='2022-04-18T12:07:41Z'
+export AWS_ACCESS_KEY_ID='<access-key-id>'
+export AWS_SECRET_ACCESS_KEY='<secret-access-key>'
+export AWS_SESSION_TOKEN='<session-token>'
 ```
 
 On error, the response may look like the following:
-```json
-{
-  "success": false,
-  "error": "not allowed to assume arn:aws:iam::123456789012:role/TestRole"
-}
+```shell
+export BOGGART_SUCCESS=0
+export BOGGART_ERROR='not allowed to assume arn:aws:iam::123456789012:role/TestRole'
 ```
+
+Following parameters are supported:
+
+|Parameter    | Usage             |
+|:------------|-------------------|
+| `format`    | `json`, `shell`   |
+| `session`   | STS session name  |
 
 ## Configuration
 Boggart looks for configuration file at `/etc/boggart/config.yml`.
